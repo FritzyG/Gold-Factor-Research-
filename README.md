@@ -1,2 +1,4 @@
-# Gold-Factor-Research-
-A quantitative research platform for analyzing and forecasting 5-week forward returns in Gold (XAU/USD) using factor modeling, machine learning, backtesting, and risk analytics.
+# -xauusd-Gold-Research-lab-
+Short Summary: A quantitative research platform for analyzing and forecasting 5-Month forward returns in Gold (XAU/USD) using factor modeling, machine learning, back testing, and risk analytics.
+
+Full Summary: This is a Gold quanitative data reaerch platfrom that investigates whether Gold (XAU/USD) can achieve returns greater than 5% over a five-month investment horizon. The platform combines market data analysis, factor engineering, statistical modeling, machine learning, backtesting, and risk analytics to evaluate the probability of future price appreciation. By examining momentum, volatility, trend strength, macroeconomic indicators, and historical market behavior, the project aims to transform a discretionary market thesis into a data-driven investment framework. The repository demonstrates the complete quantitative research workflow, from data collection and hypothesis testing to predictive modeling, performance evaluation, and interactive visualization, providing a professional showcase of financial analysis, quantitative modeling, and software engineering skills.
