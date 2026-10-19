@@ -1,0 +1,40 @@
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
+
+def train_model(df):
+
+    features = [
+        "mom_1m",
+        "mom_3m",
+        "mom_6m",
+        "vol_20",
+        "vol_60",
+        "dxy_5d",
+        "dxy_20d",
+        "dxy_60d"
+    ]
+
+    X = df[features].dropna()
+
+    y = df.loc[X.index, "target"]
+
+    X_train, X_test, y_train, y_test = (
+        train_test_split(
+            X,
+            y,
+            test_size=0.3,
+            shuffle=False
+        )
+    )
+
+    model = LogisticRegression()
+
+    model.fit(X_train, y_train)
+
+    print(
+        "Accuracy:",
+        model.score(X_test, y_test)
+    )
+
+    return model

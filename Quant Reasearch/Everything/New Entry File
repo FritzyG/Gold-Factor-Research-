@@ -1,0 +1,44 @@
+import yfinance as yf
+import pandas as pd
+
+
+class GoldDataLoader:
+
+    def __init__(self):
+        self.assets = {
+            "gold": "GLD",
+            "spy": "SPY",
+            "dxy": "DX-Y.NYB",
+            "silver": "SLV",
+            "vix": "^VIX"
+        }
+
+    def download(self,
+                 start="2010-01-01",
+                 end="2026-12-31"):
+
+        data = {}
+
+        for name, ticker in self.assets.items():
+
+            df = yf.download(
+                ticker,
+                start=start,
+                end=end,
+                auto_adjust=True
+            )
+
+            data[name] = df["Close"]
+
+        return pd.DataFrame(data)
+
+
+if __name__ == "__main__":
+
+    loader = GoldDataLoader()
+
+    data = loader.download()
+
+    print(data.tail())
+
+    data.to_csv("data/raw/market_data.csv")

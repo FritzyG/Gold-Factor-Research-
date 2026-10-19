@@ -1,0 +1,9 @@
+probability = model.predict_proba(
+    latest_features
+)[0][1]
+
+print(
+    f"Probability Gold gains >5% "
+    f"within 5 months: "
+    f"{probability:.2%}"
+)

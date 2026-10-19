@@ -1,1 +1,20 @@
-Gold Factor Research is a quantitative research platform that investigates whether Gold (XAU/USD) can achieve returns greater than 5% over a five-month investment horizon. The project combines factor modeling, cross-asset information diffusion analysis, statistical forecasting, machine learning, backtesting, and portfolio risk analytics to evaluate the probability of future gold price appreciation. By analyzing momentum, trend strength, volatility regimes, macroeconomic indicators, market sentiment, and the propagation of information across related financial markets, the platform transforms a discretionary investment thesis into a systematic, data-driven research framework. The repository demonstrates the complete quantitative research lifecycle, from hypothesis generation and feature engineering to predictive modeling, performance attribution, risk management, and interactive visualization, providing a professional showcase of quantitative finance, data science, and software engineering skills.
+# Gold Factor Research
+
+Gold Factor Research is a quantitative research platform developed to investigate whether Gold (XAU/USD) is likely to appreciate by more than 5% over a five-month investment horizon.
+
+The platform combines traditional quantitative finance techniques with modern machine learning and information diffusion modeling to analyze the drivers of gold returns. Research factors include market momentum, volatility regimes, macroeconomic conditions, cross-asset relationships, Treasury yields, the U.S. Dollar Index (DXY), equity market stress indicators, and sentiment-driven signals.
+
+The objective is not simply to predict price movements, but to measure the probability of future appreciation through a rigorous, repeatable research process. The project incorporates data engineering, feature generation, statistical testing, predictive modeling, backtesting, portfolio analytics, and risk management to provide a complete end-to-end quantitative research framework.
+
+Key Components:
+- Factor Modeling
+- Information Diffusion Analysis
+- Lead-Lag Relationship Detection
+- Machine Learning Forecasting
+- Statistical Forecasting
+- Portfolio Backtesting
+- Risk Analytics (VaR, CVaR, Drawdown)
+- Interactive Research Dashboard
+
+Research Question:
+Can a combination of market, macroeconomic, and cross-asset factors reliably predict whether Gold (XAU/USD) will generate returns greater than 5% over the next five months?

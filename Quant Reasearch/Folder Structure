@@ -1,0 +1,26 @@
+gold-factor-research/
+
+├── README.md
+├── requirements.txt
+├── .gitignore
+
+├── data/
+│   ├── raw/
+│   └── processed/
+
+├── notebooks/
+
+├── src/
+│   ├── data/
+│   ├── factors/
+│   ├── diffusion/
+│   ├── models/
+│   ├── backtest/
+│   ├── risk/
+│   └── simulation/
+
+├── dashboard/
+
+├── reports/
+
+└── images/

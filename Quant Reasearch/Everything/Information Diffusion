@@ -1,0 +1,15 @@
+def add_dxy_features(df):
+
+    df["dxy_5d"] = (
+        df["dxy"].pct_change(5)
+    )
+
+    df["dxy_20d"] = (
+        df["dxy"].pct_change(20)
+    )
+
+    df["dxy_60d"] = (
+        df["dxy"].pct_change(60)
+    )
+
+    return df
