@@ -3,308 +3,262 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ----------------------------------
+# ==================================================
 # PAGE CONFIG
-# ----------------------------------
+# ==================================================
 
 st.set_page_config(
     page_title="Gold Factor Research",
     layout="wide"
 )
 
-# ----------------------------------
+# ==================================================
 # TITLE
-# ----------------------------------
+# ==================================================
 
 st.title("Gold Factor Research")
 
 st.markdown("""
-A quantitative research platform designed to estimate the probability that Gold (XAU/USD) will appreciate by more than **5% over the next five months** using factor modeling, information diffusion analysis, machine learning, backtesting, and risk analytics.
+A quantitative research platform investigating whether Gold (XAU/USD)
+can appreciate more than 5% over the next five months using:
+
+- Factor Modeling
+- Information Diffusion Analysis
+- Machine Learning
+- Portfolio Backtesting
+- Risk Analytics
 """)
 
-st.divider()
+# ==================================================
+# LOAD PROJECT FILES
+# ==================================================
 
-# ----------------------------------
+try:
+
+    predictions = pd.read_csv(
+        "../data/processed/model_predictions.csv",
+        index_col=0
+    )
+
+except:
+
+    predictions = None
+
+try:
+
+    model_results = pd.read_csv(
+        "../reports/model_results.csv"
+    )
+
+except:
+
+    model_results = None
+
+try:
+
+    backtest_results = pd.read_csv(
+        "../reports/backtest_results.csv"
+    )
+
+except:
+
+    backtest_results = None
+
+# ==================================================
 # CURRENT FORECAST
-# ----------------------------------
-
-st.header("Current Forecast")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric(
-        "Probability Gold Gains >5%",
-        "68.4%"
-    )
-
-with col2:
-    st.metric(
-        "Current Trend",
-        "Bullish"
-    )
-
-with col3:
-    st.metric(
-        "Forecast Horizon",
-        "5 Months"
-    )
+# ==================================================
 
 st.divider()
 
-# ----------------------------------
-# MARKET CONDITIONS
-# ----------------------------------
+st.header("Current Gold Forecast")
 
-st.header("Current Market Conditions")
+if predictions is not None:
 
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric(
-        "Dollar Index (DXY)",
-        "Weakening"
+    current_probability = (
+        predictions["probability"]
+        .iloc[-1]
+        * 100
     )
 
-with col2:
     st.metric(
-        "Treasury Yields",
-        "Falling"
+        label="Probability Gold Gains >5% In 5 Months",
+        value=f"{current_probability:.2f}%"
     )
 
-with col3:
-    st.metric(
-        "Volatility Regime",
-        "Moderate"
+else:
+
+    st.warning(
+        "Run notebook 04 first to generate predictions."
     )
+
+# ==================================================
+# MARKET SIGNAL
+# ==================================================
 
 st.divider()
 
-# ----------------------------------
-# GOLD PRICE HISTORY
-# ----------------------------------
+st.header("Current Market Signal")
 
-st.header("Gold Price History")
+if predictions is not None:
 
-dates = pd.date_range(
-    start="2020-01-01",
-    periods=252
-)
+    signal = predictions["signal"].iloc[-1]
 
-gold_prices = np.cumsum(
-    np.random.normal(1, 5, 252)
-) + 1800
+    if signal == 1:
 
-gold_df = pd.DataFrame(
-    {
-        "Gold Price": gold_prices
-    },
-    index=dates
-)
+        st.success(
+            "Model Signal: LONG GOLD"
+        )
 
-st.line_chart(gold_df)
+    else:
 
-st.divider()
+        st.error(
+            "Model Signal: NO POSITION"
+        )
 
-# ----------------------------------
-# FEATURE IMPORTANCE
-# ----------------------------------
-
-st.header("Top Predictive Factors")
-
-importance_df = pd.DataFrame(
-    {
-        "Feature": [
-            "DXY Momentum",
-            "Gold Momentum",
-            "Treasury Yield Shift",
-            "VIX Shock",
-            "Trend Strength"
-        ],
-        "Importance": [
-            0.32,
-            0.28,
-            0.17,
-            0.13,
-            0.10
-        ]
-    }
-)
-
-st.bar_chart(
-    importance_df.set_index(
-        "Feature"
-    )
-)
-
-st.divider()
-
-# ----------------------------------
-# INFORMATION DIFFUSION
-# ----------------------------------
-
-st.header("Information Diffusion Analysis")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric(
-        "DXY Lead Time",
-        "3 Days"
-    )
-
-with col2:
-    st.metric(
-        "Treasury Lead Time",
-        "5 Days"
-    )
-
-with col3:
-    st.metric(
-        "Information Half-Life",
-        "7.4 Days"
-    )
-
-st.markdown("""
-### Interpretation
-
-Research suggests that information appearing in the Dollar Index and Treasury markets may influence Gold prices before the effect is fully reflected in Gold returns.
-""")
-
-st.divider()
-
-# ----------------------------------
+# ==================================================
 # MODEL PERFORMANCE
-# ----------------------------------
+# ==================================================
 
-st.header("Model Performance")
+st.divider()
 
-models = pd.DataFrame(
-    {
-        "Model": [
-            "Logistic Regression",
-            "Random Forest",
-            "XGBoost"
-        ],
-        "ROC-AUC": [
-            0.64,
-            0.72,
-            0.78
-        ]
-    }
-)
+st.header("Machine Learning Model Performance")
+
+if model_results is not None:
+
+    st.dataframe(
+        model_results,
+        use_container_width=True
+    )
+
+else:
+
+    st.warning(
+        "model_results.csv not found."
+    )
+
+# ==================================================
+# FEATURE IMPORTANCE
+# ==================================================
+
+st.divider()
+
+st.header("Research Factors")
+
+factor_data = pd.DataFrame({
+
+    "Factor": [
+
+        "6 Month Momentum",
+
+        "3 Month Momentum",
+
+        "Dollar Index",
+
+        "Treasury Yields",
+
+        "Relative Strength",
+
+        "Volatility"
+
+    ]
+})
 
 st.dataframe(
-    models,
+    factor_data,
     use_container_width=True
 )
 
-st.divider()
+st.markdown("""
+The project investigates whether these factors contain predictive information regarding future Gold returns.
+""")
 
-# ----------------------------------
-# BACKTEST RESULTS
-# ----------------------------------
-
-st.header("Backtest Results")
-
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.metric(
-        "Sharpe Ratio",
-        "1.42"
-    )
-
-with col2:
-    st.metric(
-        "Sortino Ratio",
-        "1.88"
-    )
-
-with col3:
-    st.metric(
-        "Max Drawdown",
-        "-11.2%"
-    )
-
-with col4:
-    st.metric(
-        "Win Rate",
-        "63%"
-    )
+# ==================================================
+# PROBABILITY HISTORY
+# ==================================================
 
 st.divider()
 
-# ----------------------------------
-# EQUITY CURVE
-# ----------------------------------
+st.header("Probability Forecast History")
+
+if predictions is not None:
+
+    probability_chart = (
+        predictions["probability"]
+        * 100
+    )
+
+    st.line_chart(
+        probability_chart
+    )
+
+# ==================================================
+# STRATEGY VS BUY AND HOLD
+# ==================================================
+
+st.divider()
 
 st.header("Strategy Performance")
 
-strategy = (
-    np.cumprod(
-        1 + np.random.normal(
-            0.001,
-            0.01,
-            252
+if predictions is not None:
+
+    if (
+        "strategy_equity"
+        in predictions.columns
+        and
+        "buyhold_equity"
+        in predictions.columns
+    ):
+
+        comparison = predictions[
+            [
+                "strategy_equity",
+                "buyhold_equity"
+            ]
+        ]
+
+        st.line_chart(
+            comparison
         )
-    )
-)
 
-buy_hold = (
-    np.cumprod(
-        1 + np.random.normal(
-            0.0007,
-            0.012,
-            252
-        )
-    )
-)
-
-equity_df = pd.DataFrame(
-    {
-        "Strategy": strategy,
-        "Buy & Hold Gold": buy_hold
-    }
-)
-
-st.line_chart(equity_df)
+# ==================================================
+# BACKTEST METRICS
+# ==================================================
 
 st.divider()
 
-# ----------------------------------
-# RISK ANALYTICS
-# ----------------------------------
+st.header("Backtest Results")
 
-st.header("Risk Analytics")
+if backtest_results is not None:
 
-col1, col2, col3
-
-= st.columns(3)
-
-with col1:
-    st.metric(
-        "VaR (95%)",
-        "-8.5%"
+    cols = st.columns(
+        len(backtest_results.columns)
     )
 
-with col2:
-    st.metric(
-        "CVaR (95%)",
-        "-12.1%"
+    for idx, col in enumerate(
+        backtest_results.columns
+    ):
+
+        value = (
+            backtest_results[col]
+            .iloc[0]
+        )
+
+        cols[idx].metric(
+            col,
+            str(round(value,4))
+        )
+
+else:
+
+    st.warning(
+        "backtest_results.csv not found."
     )
 
-with col3:
-    st.metric(
-        "Annual Volatility",
-        "14.8%"
-    )
+# ==================================================
+# MONTE CARLO DEMO
+# ==================================================
 
 st.divider()
-
-# ----------------------------------
-# MONTE CARLO SIMULATION
-# ----------------------------------
 
 st.header("Monte Carlo Simulation")
 
@@ -315,48 +269,30 @@ fig, ax = plt.subplots(
 for _ in range(50):
 
     path = np.cumprod(
-        1 + np.random.normal(
+
+        1 +
+        np.random.normal(
             0.0008,
-            0.012,
+            0.015,
             252
         )
     )
 
     ax.plot(
         path,
-        alpha=0.25
+        alpha=0.2
     )
 
 ax.set_title(
-    "Monte Carlo Simulated Gold Paths"
+    "Simulated Portfolio Paths"
 )
 
 st.pyplot(fig)
 
+# ==================================================
+# PROJECT WORKFLOW
+# ==================================================
+
 st.divider()
 
-# ----------------------------------
-# RESEARCH CONCLUSION
-# ----------------------------------
-
-st.header("Research Conclusion")
-
-st.markdown("""
-### Summary
-
-The objective of this project is to determine whether market, macroeconomic, and cross-asset information can be used to estimate the probability that Gold (XAU/USD) appreciates by more than 5% over a five-month horizon.
-
-Current findings suggest:
-
-- Gold Momentum is strongly predictive.
-- DXY weakness is positively associated with future Gold appreciation.
-- Treasury yield changes contain useful information.
-- Information diffusion across markets appears measurable.
-- XGBoost currently produces the strongest predictive performance.
-
-Current Forecast:
-
-**68.4% probability that Gold appreciates more than 5% over the next five months.**
-""")
-
-st.success("Gold Factor Research Dashboard Loaded Successfully")
+st.header("Project Workflow")
